@@ -1,0 +1,151 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+ <title>ReactionTime</title>
+
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<meta charset="utf-8" />
+ <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<body>
+
+<h1>Test your reaction time</h1>
+
+<p>Your reaction time is: 0<span id="time">s</span></p>
+
+<div id= "alignRight">
+
+<p> Total number of clicks is: <span id = "clicks"></span></p>
+
+<p>Your average reaction time is: 0<span id="average">s</span></p>
+
+</div>
+
+
+<div id="box">
+
+
+
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+var boxCreated; //time of box creation
+var boxClicked; // time of box clicked
+
+var reactionTime;
+
+var averageReaction=0;
+var counter = 0;
+var total = 0;
+
+
+
+function generateCircle() {  //function to create a cicle
+
+	var rand = Math.random()*2; //create a random variable that is from 0-1.999
+
+	if (rand > 1) { //if rand is > 1
+		document.getElementById("box").style.borderRadius="100px";  //make radius a circle
+	}
+	else { // if not, make it a square
+		document.getElementById("box").style.borderRadius="0px";
+	}
+
+}
+
+
+function generateColor() { //function to change the color of the box
+
+	var chars = 'ABCDE0123456789'.split(''); //create an array of 15 characters that could be possible collors
+
+	var color = '#'; //variable colors
+
+	for (i=0;i<6;i++){
+		color += chars[Math.round(Math.random()*15)]; //for 5 letters, random them, and add them to colors
+	}
+
+	return color;
+}
+
+function makeBox() {
+
+	var timer = Math.random(); //random number in 0-1
+
+	timer = timer*3000; // random  number from 0-4000ms
+
+	counter++;
+
+	setTimeout(function() { //set timer function
+
+		document.getElementById("box").style.borderRadius=generateCircle();
+
+		document.getElementById("box").style.backgroundColor=generateColor();
+
+		var top = Math.random()*600;
+
+		var left = Math.random()*1000;
+
+		document.getElementById("box").style.top=top+"px";
+
+		document.getElementById("box").style.left=left+"px";
+
+		document.getElementById("box").style.display="block"; //At a random time, the function will change 'box' ID from 'none' to 'display'
+
+		boxCreated = Date.now();
+
+	},timer);
+
+}
+
+document.getElementById("box").onclick=function() { //create a function that gets the div id 'box'
+
+
+
+	this.style.display="none"; //display the box as none
+
+	boxClicked = Date.now();
+
+	reactionTime = (boxClicked-boxCreated)/1000;
+
+	total += reactionTime;
+
+	averageReaction = total / counter
+
+	document.getElementById("time").innerHTML=reactionTime;
+
+	document.getElementById("average").innerHTML=averageReaction.toPrecision(3);
+
+	document.getElementById("clicks").innerHTML= counter;
+
+	makeBox();
+
+}
+
+makeBox();
+
+console.log(counter);
+
+
+</script>
+
+
+
+
+</body>
+
+
+
+
+</html>
